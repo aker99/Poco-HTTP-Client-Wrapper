@@ -5,18 +5,18 @@
 
 #include "CustomHttpClient.h"
 
-void test() {
-  CustomHttpClient client("localhost", 8080);
+void test(const std::string path) {
+  static CustomHttpClient client("localhost", 8080);
   try {
-    Poco::Net::HTTPResponse response = client.request("/", Poco::Net::HTTPRequest::HTTP_GET);
+    Poco::Net::HTTPResponse response = client.request(path, Poco::Net::HTTPRequest::HTTP_GET);
     std::cout << "Response is : " << response.getStatus() << "\t\t Reason is : " << response.getReason() << std::endl;  
-  } catch (const Poco::Net::Exce) 
-  catch (const std::exception &e) {
+  } catch (const std::exception &e) {
     std::cerr <<"Error Occured : "<< e.what() << '\n';
   }
 }
 
 int main(int argc, char const *argv[]) {
-  test();
+  test("/redirect");
+  test("/1");
   return 0;
 }

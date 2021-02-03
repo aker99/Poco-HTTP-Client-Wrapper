@@ -22,5 +22,5 @@ public:
 
     const HTTPResponse request(std::string path, const std::string req_type, int redirection_limit = 0);
 
-    const HTTPResponse printResponseData(const HTTPResponse res);
+    const std::string responseBody(const HTTPResponse res);
 };

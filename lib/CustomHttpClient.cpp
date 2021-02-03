@@ -1,3 +1,5 @@
+#include <string>
+
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/URI.h>
@@ -6,14 +8,19 @@
 
 using namespace Poco::Net;
 
+// Static Methods
+
 bool CustomHttpClient::rcForRedirectionCheck(short rc) {
   return rc == HTTPResponse::HTTP_MOVED_PERMANENTLY || rc == HTTPResponse::HTTP_FOUND || rc == HTTPResponse::HTTP_TEMPORARY_REDIRECT || rc == HTTPResponse::HTTP_PERMANENT_REDIRECT;
 }
 
+// Constructors
 CustomHttpClient::CustomHttpClient(std::string hostName, const short portNo)
  : host_names(hostName), port(portNo), session(hostName, port) {}
 
 CustomHttpClient::~CustomHttpClient() {}
+
+// Methods
 
 const HTTPResponse CustomHttpClient::request(const std::string path, const std::string req_type,const int redirection_limit) {
   HTTPRequest obj(req_type, path);
@@ -44,6 +51,7 @@ const HTTPResponse CustomHttpClient::request(const std::string path, const std::
   }
 }
 
-// const HTTPResponse printResponseData(const HTTPResponse res) {
-//   thi
+// const std::string printResponseData(const HTTPResponse res) {
+//   std:: stringstream body;
+//         istream& result = session.receiveResponse(response);
 // }
