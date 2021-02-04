@@ -10,7 +10,7 @@ void test(const String path) {
   static CustomHttpClient client("localhost", 8080);
   std::cout<<"Requesting to localhost:8080"<<path<<std::endl;
   try {
-    const CustomHttpResponse response = client.request(path, Poco::Net::HTTPRequest::HTTP_GET);
+    const CustomHttpResponse response = client.request(path, Poco::Net::HTTPRequest::HTTP_GET, 2);
     std::cout << "Response: \nCode :" << response.header.getStatus() << "\t\t Message : " << response.header.getReason() << "\nBody: "<<std::endl<<response.body<<std::endl;  
   } catch (const std::exception &e) {
     std::cerr <<"Error Occured : "<< e.what() << std::endl;
