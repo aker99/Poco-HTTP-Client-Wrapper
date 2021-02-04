@@ -28,16 +28,14 @@ CustomHttpClient::~CustomHttpClient() {}
 const CustomHttpResponse CustomHttpClient::request(const String path, const String req_type,const int redirection_limit) {
   HTTPRequest obj(req_type, path);
   HTTPResponse response;
+  std::stringstream body_stream;
 
   this->session.sendRequest(obj);
-  std::istream& bodyStream = this->session.receiveResponse(response);
-
-  std::stringstream s;
-  Poco::StreamCopier::copyStream(bodyStream, s);
+  Poco::StreamCopier::copyStream(this->session.receiveResponse(response), body_stream);
 
   short rc = response.getStatus();
   if (rcForRedirectionCheck(rc)) {
-    if (redirection_limit > -1) {
+    if (redirection_limit > 0) {
       const char* key = "location";
       if (response.has(key)) {
         const String location = response.get(key);
@@ -56,11 +54,6 @@ const CustomHttpResponse CustomHttpClient::request(const String path, const Stri
   }
   CustomHttpResponse res;
   res.header = response;
-  res.body = s.str();
+  res.body = body_stream.str();
   return res;
 }
-
-// const String printResponseData(const HTTPResponse res) {
-//   std:: stringstream body;
-//         istream& result = session.receiveResponse(response);
-// }
