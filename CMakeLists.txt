@@ -13,5 +13,5 @@ include(CPack)
 
 target_include_directories(poco-http-curl PUBLIC ${CMAKE_SOURCE_DIR}/headers)
 
-find_package(Poco CONFIG REQUIRED Net)
-target_link_libraries(poco-http-curl PRIVATE Poco::Net)
+find_package(Poco CONFIG REQUIRED Net Util)
+target_link_libraries(poco-http-curl PRIVATE Poco::Net Poco::Util)

@@ -11,8 +11,7 @@ struct CustomHttpResponse {
     String body;
 };
 
-class CustomHttpClient
-{
+class CustomHttpClient {
 private:
     const String host_names;
     const short port;
@@ -26,6 +25,4 @@ public:
     ~CustomHttpClient();
 
     const CustomHttpResponse request(String path, const String req_type, int redirection_limit = 0);
-
-    // const String responseBody(const HTTPResponse res);
 };
