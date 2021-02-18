@@ -4,10 +4,10 @@
 
 #include "CustomDef.h"
 
-using namespace Poco::Net;
+// using namespace Poco::Net;
 
 struct CustomHttpResponse {
-    HTTPResponse header;
+    Poco::Net::HTTPResponse header;
     String body;
 };
 
@@ -15,7 +15,7 @@ class CustomHttpClient {
 private:
     const String host_names;
     const short port;
-    HTTPClientSession session; 
+    Poco::Net::HTTPClientSession session; 
 
     static const std::vector<int> rcForRedirection;
     static bool rcForRedirectionCheck(const short rc);
