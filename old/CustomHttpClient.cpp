@@ -6,7 +6,6 @@
 #include <Poco/URI.h>
 #include <Poco/StreamCopier.h>
 
-#include "CustomDef.h"
 #include "CustomHttpClient.h"
 
 using namespace Poco::Net;

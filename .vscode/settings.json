@@ -1,3 +1,8 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/."
+    "files.associations": {
+        "queue": "cpp",
+        "vector": "cpp",
+        "wchar.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

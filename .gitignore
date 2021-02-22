@@ -1,1 +1,5 @@
 build/*
+poco-practice-program/*
+.DS_Store
+main1.cpp
+*.log
