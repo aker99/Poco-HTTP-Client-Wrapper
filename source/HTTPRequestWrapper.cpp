@@ -51,7 +51,6 @@ const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(URI prevURI
     
     while(1)
     {   
-        fileLogger.information("Requesting: " + currentURI.toString());
         // Scheme changes so create new session
         if(prevURI.getScheme() != currentURI.getScheme())
         {
@@ -93,6 +92,7 @@ const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(URI prevURI
                 else
                 {
                     notFirstRequest = true;
+                    fileLogger.information("Redirecting: " + prevURI.toString() + " --> " + currentURI.toString());
                 }
             }
             else

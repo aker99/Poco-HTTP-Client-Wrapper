@@ -13,7 +13,7 @@ namespace HTTPRequestWrapper
     };
     
     const CustomHttpResponse get(Poco::URI url);
-    const CustomHttpResponse get(std::string &url);
+    const CustomHttpResponse get(const std::string &url);
     const bool isRedirectionStatus(Poco::Net::HTTPResponse::HTTPStatus status);
 }
 

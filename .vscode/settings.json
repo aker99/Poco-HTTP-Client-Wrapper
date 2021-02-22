@@ -8,7 +8,8 @@
     "cmake.debugConfig": {
         "args": [
             "--url",
-            "http://fb.com http://google.com http://yahoo.com http://example.com https://example.com http://example.org"
+            "http://fb.com"// http://google.com http://yahoo.com http://example.com https://example.com http://example.org"
         ]
     }
+
 }

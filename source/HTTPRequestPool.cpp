@@ -19,7 +19,7 @@ HttpRequestPool::HttpRequestPool(const std::vector<std::string> &reqUrl, const i
         {
             reqUrls.push(i);
         }
-        // HttpRequestPool();
+        HttpRequestPool();
     }
 
 HttpRequestPool::~HttpRequestPool() {}

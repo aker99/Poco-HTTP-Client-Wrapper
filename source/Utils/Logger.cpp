@@ -12,7 +12,7 @@ using namespace Poco;
 
 Poco::Logger &Utility::Logger::create(const std::string &name, Message::Priority priority) {
 
-    static Poco::FormattingChannel* pFCFile = new Poco::FormattingChannel(new PatternFormatter("%Y-%m-%d %H:%M:%S.%c %N[%P]:%s:%q:%t"), new Poco::FileChannel("sample.log"));
+    static Poco::FormattingChannel* pFCFile = new Poco::FormattingChannel(new PatternFormatter("%Y-%m-%d %H:%M:%S.%c %N[%P]:%s:%q:%t"), new Poco::FileChannel("request.log"));
     // pFCFile->isop
     pFCFile->open();
 

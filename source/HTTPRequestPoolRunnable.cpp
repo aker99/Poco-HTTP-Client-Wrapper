@@ -26,7 +26,7 @@ void  HttpRequestPoolRunnable::run() {
 
         auto duration = (endTime - startTime).count() / 1000000000.0;
 
-        fileLogger.information("Response Status of URL: " + url + obj.header.getReason() + " | Total Time Taken: " + std::to_string(duration));
+        fileLogger.information("Response Status of URL (" + url + "): " + obj.header.getReason() + " | Total Time Taken: " + std::to_string(duration));
         //Print Response Headers
         // for(auto it = obj.header.begin(); it!= obj.header.end(); it++)
         //     std::cout<< it->first << " " << it->second << "\n";
