@@ -31,4 +31,6 @@ class  HttpRequestPool {
         std::vector<HttpRequestPoolRunnable> runnableObjs;
         Poco::ThreadPool pool;
 
+        HttpRequestPool();
+
 };

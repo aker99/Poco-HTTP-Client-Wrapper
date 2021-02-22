@@ -20,7 +20,7 @@ size_t findColonPos(std::string str){
     return i;
 }
 
-URLParser::URLParser(const std::string URL): url(URL){
+URLParser::URLParser(const std::string &URL): url(URL){
     parser();
 }
 

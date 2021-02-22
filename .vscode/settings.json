@@ -4,5 +4,11 @@
         "vector": "cpp",
         "wchar.h": "c"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "cmake.debugConfig": {
+        "args": [
+            "--url",
+            "http://fb.com http://google.com http://yahoo.com http://example.com https://example.com http://example.org"
+        ]
+    }
 }

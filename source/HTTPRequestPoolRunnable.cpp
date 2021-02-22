@@ -1,40 +1,48 @@
-#include <iostream>
+// #include <iostream>
 #include <string>
+#include <chrono>
 
 #include <Poco/Thread.h>
 
 #include "HttpRequestPoolRunnable.h"
-#include "HTTPSession.h"
+#include "HTTPRequestWrapper.h"
 #include "Utils/Logger.h"
-
-using namespace Poco;
 
 HttpRequestPoolRunnable::HttpRequestPoolRunnable(const std::string &url): url(url) {}
 HttpRequestPoolRunnable::~HttpRequestPoolRunnable() {}
 
-void  HttpRequestPoolRunnable::run(){
-      try {
+void  HttpRequestPoolRunnable::run() {
+
+    Poco::Logger& fileLogger = Utility::Logger::createCurrentThreadLogger();
+
+    try {
+        typedef std::chrono::high_resolution_clock Clock;
+
+        fileLogger.information("Requesting to URL: " + url);
         
-        // MARK: - Directly work here Himanshu
-        Logger& fileLogger = LoggerUtil::create(std::to_string(Thread::current()->id()));
-        const HTTP_Session::CustomHttpResponse obj = HTTP_Session::sendAndReceive(url);
+        auto startTime = Clock::now();
+        const HTTPRequestWrapper::CustomHttpResponse obj = HTTPRequestWrapper::get(url);
+        auto endTime = Clock::now();
 
+        auto duration = (endTime - startTime).count() / 1000000000.0;
 
+        fileLogger.information("Response Status of URL: " + url + obj.header.getReason() + " | Total Time Taken: " + std::to_string(duration));
         //Print Response Headers
-        for(auto it = obj.header.begin(); it!= obj.header.end(); it++)
-            std::cout<< it->first << " " << it->second << "\n";
+        // for(auto it = obj.header.begin(); it!= obj.header.end(); it++)
+        //     std::cout<< it->first << " " << it->second << "\n";
 
         
         // //Print Body
         // std::cout<<"\n\n------------- Body --------------\n\n";
         // std::cout<<"\n"<<obj.body<<"\n";
+
+
     } catch (Poco::Exception& excp) {
-        std::cerr<<"Some error occured --> "<<excp.displayText()<<std::endl;
-        // exit(1);
-    } catch(const char * err)
+        fileLogger.error("Request to URL: " + url + " returned with following error " + excp.displayText());
+    } catch (std::exception ex) {
+        fileLogger.error("Request to URL: " + url + " returned with following error " + ex.what());
+    } catch(const char *err)
     {
-        std::cout<<err;
+        fileLogger.error("Request to URL: " + url + " returned with following error " + err);
     }
-    
-    Poco::Thread::sleep(1000);
 }

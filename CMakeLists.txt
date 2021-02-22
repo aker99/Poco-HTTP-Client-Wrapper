@@ -13,7 +13,7 @@ set(UTILITY_SOURCE_DIR Logger.cpp Thread.cpp URLParser.cpp)
 list(TRANSFORM UTILITY_SOURCE_DIR PREPEND Utils/)
 
 # Default Source
-set(D_SOURCE_FILE PocoCurlApp.cpp CustomHttpSessionFactory.cpp HTTPRequestPool.cpp HTTPRequestPoolRunnable.cpp HTTPSession.cpp)
+set(D_SOURCE_FILE PocoCurlApp.cpp CustomHttpSessionFactory.cpp HTTPRequestPool.cpp HTTPRequestPoolRunnable.cpp HTTPRequestWrapper.cpp)
 
 # Formatting path of all sources
 set(SOURCE_FILE ${D_SOURCE_FILE} ${UTILITY_SOURCE_DIR})

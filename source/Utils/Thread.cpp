@@ -1,13 +1,18 @@
+#include <string>
+
 #include <Poco/Thread.h>
 
 #include <Utils/Thread.h>
 
-using namespace Poco;
 
-const int ThreadUtil::getCurrentThreadId() {
-    return Thread::current()->id();
+const int Utility::Thread::getCurrentThreadId() {
+    return Poco::Thread::current()->id();
 }
 
-const void ThreadUtil::sleep(const long ms) {
-    Thread::sleep(ms);
+const std::string Utility::Thread::getCurrentThreadCustomName() {
+    return std::to_string(Utility::Thread::getCurrentThreadId());
+}
+
+const void Utility::Thread::sleep(const long ms) {
+    Poco::Thread::sleep(ms);
 }

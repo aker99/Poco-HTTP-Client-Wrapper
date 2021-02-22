@@ -11,32 +11,31 @@
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/HTTPSessionFactory.h>
 
-#include "URLParser.h"
-#include "HTTPSession.h"
+#include "Utils/URLParser.h"
+#include "HTTPRequestWrapper.h"
 
-#include "LoggerUtil.h"
+#include "Utils/Logger.h"
 
 using namespace Poco;
-using namespace Poco::Net;
+// using namespace Poco::Net;
 
-static const bool rcForRedirectionCheck(short rc) {
-  return rc == HTTPResponse::HTTP_MOVED_PERMANENTLY || rc == HTTPResponse::HTTP_FOUND || rc == HTTPResponse::HTTP_TEMPORARY_REDIRECT || rc == HTTPResponse::HTTP_PERMANENT_REDIRECT;
+const bool HTTPRequestWrapper::isRedirectionStatus(Net::HTTPResponse::HTTPStatus rc) {
+    using namespace Poco::Net;
+    return rc == HTTPResponse::HTTP_MOVED_PERMANENTLY || rc == HTTPResponse::HTTP_FOUND || rc == HTTPResponse::HTTP_TEMPORARY_REDIRECT || rc == HTTPResponse::HTTP_PERMANENT_REDIRECT;
 }
 
-
-static const HTTP_Session::CustomHttpResponse getRequest(URI prevURI)
+const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(URI prevURI)
 {
-    //GET request
-    Logger& fileLogger =  LoggerUtil::getCurrentThreadLogger();
+    Logger& fileLogger =  Utility::Logger::getCurrentThreadLogger();
     // Global default HTTPSession Factory
-    HTTPSessionFactory &defaultFactory = HTTPSessionFactory::defaultFactory();
+    Net::HTTPSessionFactory &defaultFactory = Net::HTTPSessionFactory::defaultFactory();
     
     // Poco request and response objects
-    HTTPRequest request(HTTPMessage::HTTP_1_1);
+    Net::HTTPRequest request(Net::HTTPMessage::HTTP_1_1);
     // HTTPResponse response;
     
     // Custom HTTP Struct
-    HTTP_Session::CustomHttpResponse finalResponse;
+    HTTPRequestWrapper::CustomHttpResponse finalResponse;
     
     // Stream to hold data of response body
     std::stringstream body_stream;
@@ -45,7 +44,7 @@ static const HTTP_Session::CustomHttpResponse getRequest(URI prevURI)
     URI currentURI = prevURI;
     
     // Starting new Session
-    HTTPClientSession *session = defaultFactory.createClientSession(currentURI);
+    Net::HTTPClientSession *session = defaultFactory.createClientSession(currentURI);
     
     // Flag to avoid redirection to same URL
     bool notFirstRequest = false;
@@ -71,12 +70,12 @@ static const HTTP_Session::CustomHttpResponse getRequest(URI prevURI)
         request.setURI(currentURI.toString());
         session->sendRequest(request);
         std::istream& result = session->receiveResponse(finalResponse.header);
-        if(finalResponse.header.getStatus() == HTTPResponse::HTTP_UNAUTHORIZED)
+        if(finalResponse.header.getStatus() == Net::HTTPResponse::HTTP_UNAUTHORIZED)
         {
             // Unauthorized response
             throw ApplicationException("401 Unauthorized");
         }
-        else if(rcForRedirectionCheck(finalResponse.header.getStatus()))
+        else if(HTTPRequestWrapper::isRedirectionStatus(finalResponse.header.getStatus()))
         {
             // 300/301/307/308 response header
             if(finalResponse.header.has("Location"))
@@ -103,7 +102,7 @@ static const HTTP_Session::CustomHttpResponse getRequest(URI prevURI)
             }
             
         }
-        else if(finalResponse.header.getStatus() == HTTPResponse::HTTP_OK)
+        else if(finalResponse.header.getStatus() == Net::HTTPResponse::HTTP_OK)
         {
             // Final response
             StreamCopier::copyStream(result, body_stream);
@@ -119,12 +118,12 @@ static const HTTP_Session::CustomHttpResponse getRequest(URI prevURI)
     
 }
 
-const HTTP_Session::CustomHttpResponse HTTP_Session::sendAndReceive(std::string url)
+const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(const std::string &url)
 {
     // URL parsing
     URLParser url_(url);
     URI uri(url_.beautifyURL());
-    return getRequest(uri);
+    return HTTPRequestWrapper::get(uri);
 }
 
 

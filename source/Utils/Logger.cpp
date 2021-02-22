@@ -10,16 +10,20 @@
 using namespace Poco;
 // using namespace LoggerUtil
 
-Logger &LoggerUtil::create(const std::string &name, Message::Priority priority) {
+Poco::Logger &Utility::Logger::create(const std::string &name, Message::Priority priority) {
 
-    static FormattingChannel* pFCFile = new FormattingChannel(new PatternFormatter("%Y-%m-%d %H:%M:%S.%c %N[%P]:%s:%q:%t"), new FileChannel("sample.log"));
+    static Poco::FormattingChannel* pFCFile = new Poco::FormattingChannel(new PatternFormatter("%Y-%m-%d %H:%M:%S.%c %N[%P]:%s:%q:%t"), new Poco::FileChannel("sample.log"));
     // pFCFile->isop
     pFCFile->open();
 
-	return Logger::create(name, pFCFile, priority);
+	return Poco::Logger::create(name, pFCFile, priority);
 
 }
 
-Poco::Logger &LoggerUtil::getCurrentThreadLogger() {
-    return Logger::get(std::to_string(ThreadUtil::getCurrentThreadId()));
+Poco::Logger &Utility::Logger::getCurrentThreadLogger() {
+    return Poco::Logger::get(std::to_string(Utility::Thread::getCurrentThreadId()));
+}
+
+Poco::Logger &Utility::Logger::createCurrentThreadLogger() {
+    return Utility::Logger::create(std::to_string(Utility::Thread::getCurrentThreadId()));
 }

@@ -1,6 +1,9 @@
 #pragma once
 
-namespace ThreadUtil {
-    const int getCurrentThreadId();
-    const void sleep(const long ms);
+namespace Utility{
+    namespace Thread {
+        const int getCurrentThreadId();
+        const std::string getCurrentThreadCustomName();
+        const void sleep(const long ms);
+    }
 }
