@@ -10,7 +10,7 @@
 using namespace Poco::Util;
 
 //Contructor
-PocoCurlApp::PocoCurlApp(): _helpRequested(false)
+PocoCurlApp::PocoCurlApp(): _helpRequested(false), _proxySet(false), _proxyCredSet(false)
 {
 	std::cout<<std::endl;
 }
@@ -30,21 +30,21 @@ void PocoCurlApp::defineOptions(OptionSet& options)
 			.callback(OptionCallback<PocoCurlApp>(this, &PocoCurlApp::handleHelp)));
 
 	options.addOption(
-		Option("url", "u", "loads the given urls")
+		Option("url", "u", "loads the given url or multiple urls within \" \" separated by space")
 			.required(true)
 			.repeatable(false)
 			.argument("value")
 			.callback(OptionCallback<PocoCurlApp>(this, &PocoCurlApp::handleURL)));
 			
 	options.addOption(
-		Option("proxy", "p", "sets the proxy ip/domain")
+		Option("proxy", "p", "sets the proxy in the format Proxy_Host:Proxy_Port")
 			.required(false)
 			.repeatable(false)
 			.argument("value")
 			.callback(OptionCallback<PocoCurlApp>(this, &PocoCurlApp::handleProxy)));
 	
 	options.addOption(
-		Option("proxy-cred", "c", "sets the proxy username and password")
+		Option("proxy-cred", "c", "sets the proxy credentials in the format \"username password\" for given proxy")
 			.required(false)
 			.repeatable(false)
 			.argument("value")
@@ -94,6 +94,8 @@ void PocoCurlApp::handleProxy(const std::string& name, const std::string& value)
 		proxyConf.port = 80;
 	else
 		proxyConf.port = stoi(port);
+	
+	_proxySet = true;
 }
 
 void PocoCurlApp::handleProxyCred(const std::string& name, const std::string& value)
@@ -108,6 +110,8 @@ void PocoCurlApp::handleProxyCred(const std::string& name, const std::string& va
 	if(temp != "\0" || (proxyConf.username != "\0" && proxyConf.password == "\0")) {
 		handleInvalidCommand("Invalid Credentials");
 	}
+
+	_proxyCredSet = true;
 }
 
 	
@@ -130,44 +134,49 @@ void PocoCurlApp::handleInvalidCommand(const std::string &error) {
 int PocoCurlApp::main(const ArgVec& args)
 {
 	if(!_helpRequested){
-		if(!userValidURLs.size())
-			std::cout<<"No valid urls found";
-
+		
 		if(userInvalidURLs.size()) {
 			std::cout<<"Invalid URL(s) found. Skipping the following URL(s):"<<std::endl;
 			for(const std::string &s : userInvalidURLs)
 				std::cout<<s<<std::endl;
 		}
 
-		//Write Your Code Here
+		
 		if(userValidURLs.size()){
-			// 	std::cout<<"\n\nValid URLS : "<<std::endl;
-			// 	for(const std::string &s : userValidURLs)
-			// 		std::cout<<s<<std::endl;
-				
+			if(_proxyCredSet && !_proxySet)
+				handleInvalidCommand("Credentials are given without proxy");
 
-				// std::cout<<"\n\nProxy : \n";
-				// std::cout<<"Proxy IP/Domain : "<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyHost()<<":"<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyPort()<<std::endl;
-				
-			CustomHTTPSessionFactory::registerHTTP();
-			CustomHTTPSessionFactory::registerHTTPS();
 
-			if (proxyConf.host.length()) {
-				CustomHTTPSessionFactory::setProxy(proxyConf.host, proxyConf.port);
-				if(proxyConf.username.length()) {
-					CustomHTTPSessionFactory::setProxyCredentials(proxyConf.username, proxyConf.password);
+			else{
+				// 	std::cout<<"\n\nValid URLS : "<<std::endl;
+				// 	for(const std::string &s : userValidURLs)
+				// 		std::cout<<s<<std::endl;
+					
+
+					// std::cout<<"\n\nProxy : \n";
+					// std::cout<<"Proxy IP/Domain : "<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyHost()<<":"<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyPort()<<std::endl;		
+				CustomHTTPSessionFactory::registerHTTP();
+				CustomHTTPSessionFactory::registerHTTPS();
+
+				if (proxyConf.host.length()) {
+					CustomHTTPSessionFactory::setProxy(proxyConf.host, proxyConf.port);
+					if(proxyConf.username.length()) {
+						CustomHTTPSessionFactory::setProxyCredentials(proxyConf.username, proxyConf.password);
+					}
 				}
+
+				// if(!(Poco::Net::HTTPSessionFactory::defaultFactory().proxyUsername() == "\0") && !(Poco::Net::HTTPSessionFactory::defaultFactory().proxyPassword() == "\0")){
+				// 	std::cout<<"Proxy Username : "<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyUsername()<<std::endl;
+				// 	std::cout<<"Proxy Password : "<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyPassword()<<std::endl;
+				// }
+
+				HttpRequestPool pool(userValidURLs);
+				pool.start();
+				pool.join();
 			}
-
-			// if(!(Poco::Net::HTTPSessionFactory::defaultFactory().proxyUsername() == "\0") && !(Poco::Net::HTTPSessionFactory::defaultFactory().proxyPassword() == "\0")){
-			// 	std::cout<<"Proxy Username : "<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyUsername()<<std::endl;
-			// 	std::cout<<"Proxy Password : "<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyPassword()<<std::endl;
-			// }
-
-			HttpRequestPool pool(userValidURLs);
-			pool.start();
-			pool.join();
 		}
+		else
+			std::cout<<"No Valid URLs are left to process";
 
 	}
 
