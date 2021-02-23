@@ -6,7 +6,7 @@
 
 struct ProxyConfig {
 	std::string host;
-	short port;
+	unsigned short port;
 	std::string username;
 	std::string password;
 };
