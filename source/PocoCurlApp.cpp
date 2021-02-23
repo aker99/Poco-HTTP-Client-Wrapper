@@ -62,11 +62,13 @@ void PocoCurlApp::handleHelp(const std::string& name, const std::string& value)
 
 void PocoCurlApp::handleURL(const std::string& name, const std::string& value)
 {
+	//regular expression for url validation
+	std::regex urlRegex("((http|https)(://))?(www\\.)?(\\w+/?)(\\.\\w+)");
+
+
 	//Splitting the urls into single url and adding to the userURLs
 	std::stringstream inputStream(value);
-
-	std::string url;	
-	std::regex urlRegex("((http|https)(://))?(www\\.)?(\\w+/?)(\\.\\w+)");
+	std::string url;		
 
 	while(getline(inputStream, url, ' ')){
 		if(std::regex_match(url, urlRegex))
@@ -80,38 +82,48 @@ void PocoCurlApp::handleURL(const std::string& name, const std::string& value)
 
 void PocoCurlApp::handleProxy(const std::string& name, const std::string& value)
 {
-	std::stringstream inputStream(value);
-	std::string port;
+	//regular expression for proxy
+	std::regex proxyRegex("[\\w\\.]+(:\\d+)?");
+	
+	
+	if(std::regex_match(value, proxyRegex))
+	{
+		std::stringstream inputStream(value);
+		std::string port;
 
-	getline(inputStream, proxyConf.host, ':');
-	getline(inputStream, port);
-
-	if (proxyConf.host != "\0"){
-		handleInvalidCommand("Invalid Proxy");
+		getline(inputStream, proxyConf.host, ':');
+		getline(inputStream, port);
+	
+		if (port == "\0")
+			proxyConf.port = 80;
+		else
+			proxyConf.port = stoi(port);
+		
+		_proxySet = true;
 	}
 
-	if (port == "\0")
-		proxyConf.port = 80;
 	else
-		proxyConf.port = stoi(port);
-	
-	_proxySet = true;
+		handleInvalidCommand("Invalid proxy format");
 }
+
 
 void PocoCurlApp::handleProxyCred(const std::string& name, const std::string& value)
 {
-	std::stringstream inputStream(value);
-	std::string temp;
+	//Regular Expression for Proxy Credentials
+	std::regex proxyCredRegex("(^\\w+\\s+\\w+$)");
 
-	getline(inputStream, proxyConf.username, ' ');
-	getline(inputStream, proxyConf.password, ' ');
-	getline(inputStream, temp, ' ');
-	
-	if(temp != "\0" || (proxyConf.username != "\0" && proxyConf.password == "\0")) {
-		handleInvalidCommand("Invalid Credentials");
+	if(std::regex_match(value, proxyCredRegex))
+	{
+		std::stringstream inputStream(value);
+
+		getline(inputStream, proxyConf.username, ' ');
+		getline(inputStream, proxyConf.password, ' ');
+
+		_proxyCredSet = true;
 	}
 
-	_proxyCredSet = true;
+	else
+		handleInvalidCommand("Invalid Credentials Format");
 }
 
 	
@@ -148,13 +160,10 @@ int PocoCurlApp::main(const ArgVec& args)
 
 
 			else{
-				// 	std::cout<<"\n\nValid URLS : "<<std::endl;
-				// 	for(const std::string &s : userValidURLs)
-				// 		std::cout<<s<<std::endl;
-					
 
-					// std::cout<<"\n\nProxy : \n";
-					// std::cout<<"Proxy IP/Domain : "<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyHost()<<":"<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyPort()<<std::endl;		
+
+				//Further Working
+
 				CustomHTTPSessionFactory::registerHTTP();
 				CustomHTTPSessionFactory::registerHTTPS();
 
@@ -165,18 +174,32 @@ int PocoCurlApp::main(const ArgVec& args)
 					}
 				}
 
-				// if(!(Poco::Net::HTTPSessionFactory::defaultFactory().proxyUsername() == "\0") && !(Poco::Net::HTTPSessionFactory::defaultFactory().proxyPassword() == "\0")){
-				// 	std::cout<<"Proxy Username : "<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyUsername()<<std::endl;
-				// 	std::cout<<"Proxy Password : "<<Poco::Net::HTTPSessionFactory::defaultFactory().proxyPassword()<<std::endl;
+
+				std::cout<<"\n\nValid URLS : "<<std::endl;
+				for(const std::string &s : userValidURLs)
+					std::cout<<s<<std::endl;
+				
+				std::cout<<"\n\n";
+
+				// std::cout<<"\n\nProxy : \n";
+				// std::cout<<"Proxy Host : "<<proxyConf.host<<"\nProxy Port :"<<proxyConf.port<<std::endl;		
+				
+
+				// if(!(proxyConf.username == "\0") && !(proxyConf.password == "\0")){
+				// 	std::cout<<"Proxy Username : "<<proxyConf.username<<std::endl;
+				// 	std::cout<<"Proxy Password : "<<proxyConf.password <<std::endl;
+				
 				// }
+
 
 				HttpRequestPool pool(userValidURLs);
 				pool.start();
 				pool.join();
+
 			}
 		}
 		else
-			std::cout<<"No Valid URLs are left to process";
+			handleInvalidCommand("No Valid URLs are left for process");
 
 	}
 
