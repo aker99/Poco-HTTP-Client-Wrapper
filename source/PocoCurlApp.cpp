@@ -110,7 +110,7 @@ void PocoCurlApp::handleProxy(const std::string& name, const std::string& value)
 void PocoCurlApp::handleProxyCred(const std::string& name, const std::string& value)
 {
 	//Regular Expression for Proxy Credentials
-	std::regex proxyCredRegex("(^\\w+\\s+\\w+$)");
+	std::regex proxyCredRegex("(^[\\w_]+\\s+.+$)");
 
 	if(std::regex_match(value, proxyCredRegex))
 	{
