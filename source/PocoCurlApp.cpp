@@ -6,6 +6,7 @@
 #include "PocoCurlApp.h"
 #include "HttpRequestPool.h"
 #include "CustomHttpSessionFactory.h"
+#include "Utils/Logger.h"
 
 using namespace Poco::Util;
 
@@ -192,6 +193,8 @@ int PocoCurlApp::main(const ArgVec& args)
 				// }
 
 
+                Utility::Logger::setDefaultConfig();
+				
 				HttpRequestPool pool(userValidURLs);
 				pool.start();
 				pool.join();
