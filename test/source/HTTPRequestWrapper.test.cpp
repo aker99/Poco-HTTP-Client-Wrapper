@@ -44,14 +44,3 @@ TEST(HTTPRequestTest, NotWorkingURLS){
     }
    
 }
-
-
-void testingOn(){
-    
-   
-    ::testing::InitGoogleTest();
-//    ::testing::GTEST_FLAG(filter) = "*WorkingURLS";
-    RUN_ALL_TESTS();
-    std::cout<<"Hello World\n";
-    exit(0);
-}
