@@ -26,7 +26,10 @@ const bool HTTPRequestWrapper::isRedirectionStatus(Net::HTTPResponse::HTTPStatus
 
 const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(URI prevURI)
 {
+    //MARK: - Latest changes
     Logger& fileLogger =  Utility::Logger::getCurrentThreadLogger();
+    //Mark: -
+    
     // Global default HTTPSession Factory
     Net::HTTPSessionFactory &defaultFactory = Net::HTTPSessionFactory::defaultFactory();
     
@@ -112,7 +115,7 @@ const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(URI prevURI
         else
         {
             // Rest of response codes not implemented
-            throw ApplicationException("Status Code method not implemented yet");
+            throw ApplicationException("Status Code method not implemented yet, status code is : "+std::to_string(finalResponse.header.getStatus()));
         }
     }
     

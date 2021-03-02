@@ -28,7 +28,7 @@ class  HttpRequestPool {
     private:
 
         std::queue<std::string> reqUrls;
-        std::vector<HttpRequestPoolRunnable> runnableObjs;
+        std::vector<HttpRequestPoolRunnable*> runnableObjs;
         Poco::ThreadPool pool;
 
         HttpRequestPool();

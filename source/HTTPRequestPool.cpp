@@ -29,10 +29,13 @@ void HttpRequestPool::start() {
     while (!reqUrls.empty())
     {
         if (pool.available()) {
-            runnableObjs.__emplace_back(reqUrls.front());
-            pool.start(runnableObjs.back());
+            HttpRequestPoolRunnable *runnable = new HttpRequestPoolRunnable(reqUrls.front());
+            runnableObjs.__emplace_back(runnable);
+            pool.start(*runnable);
             reqUrls.pop();
-        } else Utility::Thread::sleep(1000);
+        } else {
+            Utility::Thread::sleep(1000);
+        }
     }
 }
 
