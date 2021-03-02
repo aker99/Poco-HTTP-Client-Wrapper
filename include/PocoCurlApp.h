@@ -15,7 +15,7 @@ class PocoCurlApp: public Poco::Util::Application
 {	
 
 private:
-	bool _helpRequested, _proxySet, _proxyCredSet;
+	bool _helpRequested, _proxySet, _proxyCredSet, _error;
 	std::vector<std::string> userValidURLs;
 	std::vector<std::string> userInvalidURLs;
 	ProxyConfig  proxyConf;
@@ -41,7 +41,7 @@ protected:
 		
 	void displayHelp();
 
-	void handleInvalidCommand(const std::string &error);
+	void handleInvalidCommand(const std::string &flag, const std::string &error);
 
 	int main(const ArgVec & args);
 };
