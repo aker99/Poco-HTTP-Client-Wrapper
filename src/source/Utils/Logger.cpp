@@ -21,7 +21,7 @@ using namespace Poco;
 //}
 
 Poco::Logger &Utility::Logger::getCurrentThreadLogger() {
-    return Poco::Logger::get(std::to_string(Utility::Thread::getCurrentThreadId()));
+    return Poco::Logger::get(Utility::Thread::getCurrentThreadCustomName());
 }
 
 //Poco::Logger &Utility::Logger::createCurrentThreadLogger() {

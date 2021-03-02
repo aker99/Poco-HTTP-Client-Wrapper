@@ -6,6 +6,7 @@
 //
 
 // #include "test-file.hpp"
+#define TESTING 1
 #include <gtest/gtest.h>
 
 

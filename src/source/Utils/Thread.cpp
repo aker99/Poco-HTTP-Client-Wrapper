@@ -4,16 +4,19 @@
 
 #include <Utils/Thread.h>
 
-#include <iostream>
+// #define TESTING 1
+#ifndef TESTING
+#define TESTING 0
+#endif
+
 const int Utility::Thread::getCurrentThreadId() {
     return Poco::Thread::current()->id();
 }
 
 const std::string Utility::Thread::getCurrentThreadCustomName() {
-    #ifdef TESTING
+    if (TESTING == 1) {
         return "TestThread";
-    #endif
-    std::cout<<"Try Thread";
+    } 
     return std::to_string(Utility::Thread::getCurrentThreadId());
 }
 
