@@ -19,5 +19,11 @@ add_test(NAME ${BINARY} COMMAND ${BINARY})
 
 # include(GoogleTest)
 find_package(GTest REQUIRED)
-target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib GTest::gtest GTest::gtest_main)
+target_link_libraries(${BINARY} ${CMAKE_PROJECT_NAME}_lib GTest::gtest GTest::gtest_main)
 
+
+find_package(OpenSSL REQUIRED SSL Crypto)
+target_link_libraries(${BINARY_R} OpenSSL::SSL OpenSSL::Crypto)
+
+find_package(Poco CONFIG REQUIRED Net Util NetSSL)
+target_link_libraries(${BINARY_R} Poco::Foundation Poco::Util Poco::Net Poco::NetSSL)

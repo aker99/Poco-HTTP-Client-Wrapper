@@ -67,5 +67,3 @@ target_link_libraries(${BINARY_T} PRIVATE Poco::Foundation Poco::Util Poco::Net 
 
 find_package(GTest REQUIRED)
 target_link_libraries(${BINARY_T} PRIVATE GTest::gtest GTest::gtest_main)
-
-# add_test(TestName ${BINARY_T})

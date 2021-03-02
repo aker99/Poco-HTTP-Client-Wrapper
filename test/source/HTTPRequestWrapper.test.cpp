@@ -5,7 +5,7 @@
 //  Created by Bhaskar Mahajan on 25/02/21.
 //
 
-#include "test-file.hpp"
+// #include "test-file.hpp"
 #include <gtest/gtest.h>
 
 
@@ -19,9 +19,12 @@
 TEST(HTTPRequestTest, WorkingURLS) {
     CustomHTTPSessionFactory::registerHTTP();
     CustomHTTPSessionFactory::registerHTTPS();
-    
-    EXPECT_EQ ("OK", HTTPRequestWrapper::get("google.com").header.getReason());
-    EXPECT_EQ ("OK", HTTPRequestWrapper::get(Poco::URI("https://example.com")).header.getReason());
+    try {
+        ASSERT_EQ ("OK", HTTPRequestWrapper::get("google.com").header.getReason());
+        ASSERT_EQ ("OK", HTTPRequestWrapper::get(Poco::URI("https://example.com")).header.getReason());
+    } catch (Poco::Exception& excp) {
+        EXPECT_EQ ("Host not found", (std::string)excp.name());
+    }
 }
 
 TEST(HTTPRequestTest, NotWorkingURLS){
