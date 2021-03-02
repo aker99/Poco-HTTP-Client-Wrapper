@@ -8,9 +8,5 @@ set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
+add_executable(poco-http-curl main.cpp ${SOURCE_FILE})
 
-# include_directories(src)
-
-add_subdirectory(src)
-add_subdirectory(test)
-# add_subdirectory(lib/googletest)

@@ -3,7 +3,7 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/src/**",
                 "${vcpkgRoot}/x64-osx/include"
                 // "/usr/local/include/Poco/**"
                 // "/Library/Developer/CommandLineTools/usr/include/c++/v1"
