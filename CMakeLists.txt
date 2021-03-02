@@ -1,71 +1,32 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(poco-http-curl VERSION 0.1.0)
 
-include(CTest)
-enable_testing()
+# include(GoogleTest)
+# enable_testing()
 
 set(CMAKE_CXX_STANDARD 17)
+
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
-set(BINARY_R ${CMAKE_PROJECT_NAME})
-set(BINARY_T ${CMAKE_PROJECT_NAME}-test)
-
-# Set Utility Files
-set(UTILITY_FILES Logger Thread URLParser)
-list(TRANSFORM UTILITY_FILES PREPEND Utils/)
-
-# Default Files
-set(D_FILE PocoCurlApp CustomHttpSessionFactory HTTPRequestPool HTTPRequestPoolRunnable HTTPRequestWrapper)
-
-# Merging All Files
-set(ALL_FILE ${D_FILE} ${UTILITY_FILES})
-
-set(SOURCE_FILE ${ALL_FILE})
-set(HEADER_FILE ${ALL_FILE})
-
-# Formatting path of all sources
-list(TRANSFORM SOURCE_FILE PREPEND src/source/)
-list(TRANSFORM SOURCE_FILE APPEND .cpp)
-
-# Formatting path of all include
-# list(TRANSFORM HEADER_FILE PREPEND src/include/)
-# list(TRANSFORM HEADER_FILE APPEND .h)
-
-# Default Test Files
-set(D_TEST_FILE HTTPRequestWrapper)
-
-# Merging All Files
-set(ALL_TEST_FILE ${D_TEST_FILE})
-
-# set(SOURCE_FILE ${ALL_FILE})
-# set(HEADER_FILE ${ALL_FILE})
-
-# Formatting path of all sources
-list(TRANSFORM ALL_TEST_FILE PREPEND test/source/)
-list(TRANSFORM ALL_TEST_FILE APPEND .test.cpp)
+set(BINARY_R  ${PROJECT_NAME})
+set(BINARY_T ${PROJECT_NAME}-test)
+set(BINARY_LIB ${PROJECT_NAME}-lib)
+# include_directories(src)
 
 
-add_executable(${BINARY_R} src/main.cpp ${SOURCE_FILE})
+# Cretaing List of components used of OpenSSL 
+set(OPENSSL_LIB SSL Crypto)
+set(OPENSSL_LIB_LINK ${OPENSSL_LIB})
+list(TRANSFORM OPENSSL_LIB_LINK PREPEND OpenSSL::)
 
-add_executable(${BINARY_T} test/main.test.cpp ${SOURCE_FILE} ${ALL_TEST_FILE})
+# Cretaing List of components used of Poco 
+set(POCO_LIB Foundation Net Util NetSSL)
+set(POCO_LIB_LINK ${POCO_LIB})
+list(TRANSFORM POCO_LIB_LINK PREPEND Poco::)
 
-target_include_directories(${BINARY_R} PUBLIC src/include)
-target_include_directories(${BINARY_T} PUBLIC src/include)
 
-# add_library(${BINARY}_lib STATIC ${HEADER_FILE} ${SOURCE_FILE})
-# target_include_directories(${BINARY}_lib STATIC include)
-
-find_package(OpenSSL REQUIRED SSL Crypto)
-target_link_libraries(${BINARY_R} PRIVATE OpenSSL::SSL OpenSSL::Crypto)
-target_link_libraries(${BINARY_T} PRIVATE OpenSSL::SSL OpenSSL::Crypto)
-
-find_package(Poco CONFIG REQUIRED Net Util NetSSL)
-target_link_libraries(${BINARY_R} PRIVATE Poco::Foundation Poco::Util Poco::Net Poco::NetSSL)
-target_link_libraries(${BINARY_T} PRIVATE Poco::Foundation Poco::Util Poco::Net Poco::NetSSL)
-
-find_package(GTest REQUIRED)
-target_link_libraries(${BINARY_T} PRIVATE GTest::gtest GTest::gtest_main)
-
-# add_test(TestName ${BINARY_T})
+# Adding Sub Directories to be parsed and look for CMakeList.txt in those dir
+add_subdirectory(src)
+add_subdirectory(test)
