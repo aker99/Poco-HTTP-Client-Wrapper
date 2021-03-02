@@ -65,6 +65,9 @@ void PocoCurlApp::handleHelp(const std::string& name, const std::string& value)
 
 void PocoCurlApp::handleURL(const std::string& name, const std::string& value)
 {
+
+
+	// Shubham yeh galat hai, yeh sirf Ip/Domian Name karta hai uske baad ka path nahi
 	//regular expression for url validation
 	std::regex urlRegex("((http|https)(://))?(www\\.)?(\\w+/?)(\\.\\w+)");  
 	std::regex ipv4Regex("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])");
