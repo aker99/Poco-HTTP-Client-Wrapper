@@ -24,10 +24,14 @@ const bool HTTPRequestWrapper::isRedirectionStatus(Net::HTTPResponse::HTTPStatus
     return rc == HTTPResponse::HTTP_MOVED_PERMANENTLY || rc == HTTPResponse::HTTP_FOUND || rc == HTTPResponse::HTTP_TEMPORARY_REDIRECT || rc == HTTPResponse::HTTP_PERMANENT_REDIRECT;
 }
 
-const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(URI prevURI)
+const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(URI prevURI, const std::string &loggerName)
 {
     //MARK: - Latest changes
-    Logger& fileLogger =  Utility::Logger::getCurrentThreadLogger();
+    bool enableLogging = loggerName.length();
+    Logger* fileLogger; 
+    if (enableLogging) {
+        fileLogger = &Utility::Logger::getCurrentThreadLogger();
+    }
     //Mark: -
     
     // Global default HTTPSession Factory
@@ -95,7 +99,9 @@ const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(URI prevURI
                 else
                 {
                     notFirstRequest = true;
-                    fileLogger.information("Redirecting: " + prevURI.toString() + " --> " + currentURI.toString());
+                    if (enableLogging) {
+                        fileLogger->information("Redirecting: " + prevURI.toString() + " --> " + currentURI.toString());
+                    }
                 }
             }
             else
@@ -121,12 +127,12 @@ const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(URI prevURI
     
 }
 
-const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(const std::string &url)
+const HTTPRequestWrapper::CustomHttpResponse HTTPRequestWrapper::get(const std::string &url, const std::string &loggerName)
 {
     // URL parsing
     URLParser url_(url);
     URI uri(url_.beautifyURL());
-    return HTTPRequestWrapper::get(uri);
+    return HTTPRequestWrapper::get(uri, loggerName);
 }
 
 

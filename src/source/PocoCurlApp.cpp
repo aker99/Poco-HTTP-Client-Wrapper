@@ -2,11 +2,11 @@
 #include <sstream>
 
 #include <Poco/Util/HelpFormatter.h>
-
 #include "PocoCurlApp.h"
+
 #include "HttpRequestPool.h"
 #include "CustomHttpSessionFactory.h"
-
+#include "Utils/Logger.h"
 
 using namespace Poco::Util;
 

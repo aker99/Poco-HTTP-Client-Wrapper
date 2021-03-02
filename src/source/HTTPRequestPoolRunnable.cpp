@@ -7,6 +7,7 @@
 #include "HttpRequestPoolRunnable.h"
 #include "HTTPRequestWrapper.h"
 #include "Utils/Logger.h"
+#include "Utils/Thread.h"
 
 HttpRequestPoolRunnable::HttpRequestPoolRunnable(const std::string& url): url(url) {}
 HttpRequestPoolRunnable::~HttpRequestPoolRunnable() {}
@@ -20,7 +21,7 @@ void  HttpRequestPoolRunnable::run() {
 
         fileLogger.information("Requesting to URL: " + url);
         auto startTime = Clock::now();
-        const HTTPRequestWrapper::CustomHttpResponse obj = HTTPRequestWrapper::get(url);
+        const HTTPRequestWrapper::CustomHttpResponse obj = HTTPRequestWrapper::get(url, Utility::Thread::getCurrentThreadCustomName());
         auto endTime = Clock::now();
 
         auto duration = (endTime - startTime).count() / 1000000000.0;

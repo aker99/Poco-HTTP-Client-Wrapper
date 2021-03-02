@@ -12,8 +12,8 @@ namespace HTTPRequestWrapper
         std::string body;
     };
     
-    const CustomHttpResponse get(Poco::URI url);
-    const CustomHttpResponse get(const std::string &url);
+    const CustomHttpResponse get(Poco::URI url, const std::string& loggerName = "");
+    const CustomHttpResponse get(const std::string &url, const std::string& loggerName = "");
     const bool isRedirectionStatus(Poco::Net::HTTPResponse::HTTPStatus status);
 }
 
