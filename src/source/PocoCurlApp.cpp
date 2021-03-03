@@ -67,11 +67,10 @@ void PocoCurlApp::handleURL(const std::string& name, const std::string& value)
 {
 
 
-	// Shubham yeh galat hai, yeh sirf Ip/Domian Name karta hai uske baad ka path nahi
 	//regular expression for url validation
-	std::regex urlRegex("((http|https)(://))?(www\\.)?(\\w+/?)(\\.\\w+)");  
-	std::regex ipv4Regex("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])");
-	std::regex ipv6Regex("((([0-9a-fA-F]){1,4})\\:){7}([0-9a-fA-F]){1,4}");
+	std::regex urlRegex("((http|https)(://))?(www\\.)?(\\w+)(\\.\\w+)(/?\\w*)*");  
+	std::regex ipv4Regex("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(/?\\w*)*");
+	std::regex ipv6Regex("((([0-9a-fA-F]){1,4})\\:){7}([0-9a-fA-F]){1,4}(/?\\w*)*");
 
 	//Splitting the urls into single url and adding to the userValidURLs
 	std::stringstream inputStream(value);
