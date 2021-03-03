@@ -28,6 +28,10 @@ Poco::Logger &Utility::Logger::getCurrentThreadLogger() {
 //    return Utility::Logger::create(std::to_string(Utility::Thread::getCurrentThreadId()));
 //}
 
+Poco::Logger &Utility::Logger::getLoggerByName(const std::string &name) {
+    return Poco::Logger::get(name);
+}
+
 void Utility::Logger::setDefaultConfig()
 {
     Poco::FormattingChannel* pFCFile = new Poco::FormattingChannel(new Poco::PatternFormatter("%Y-%m-%d %H:%M:%S.%c %N[%P]:%s:%q:%t"), new Poco::SimpleFileChannel("request.log"));

@@ -2,7 +2,8 @@
     "files.associations": {
         "queue": "cpp",
         "vector": "cpp",
-        "wchar.h": "c"
+        "wchar.h": "c",
+        "iosfwd": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "cmake.debugConfig": {

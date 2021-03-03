@@ -35,3 +35,7 @@ void CustomHTTPSessionFactory::setProxy(const std::string &host, const short por
     CustomHTTPSessionFactory::setProxy(host, port);
     CustomHTTPSessionFactory::setProxyCredentials(host, password);
 }
+
+HTTPClientSession* CustomHTTPSessionFactory::createSession(const Poco::URI &uri){
+    return HTTPSessionFactory::defaultFactory().createClientSession(uri);
+}

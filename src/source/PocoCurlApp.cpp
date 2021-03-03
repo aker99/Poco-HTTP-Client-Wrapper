@@ -182,10 +182,10 @@ int PocoCurlApp::main(const ArgVec& args)
 
 			else{
 				
-				// std::cout<<"\n\nValid URLS : "<<std::endl;
-				// for(const std::string &s : userValidURLs){
-				// 	std::cout<<s<<std::endl;
-				// }
+				std::cout<<"\n Skipping following Invalid URLs : "<<std::endl;
+				for(const std::string &s : userValidURLs){
+					std::cout<<s<<std::endl;
+				}
 				
 
 				CustomHTTPSessionFactory::registerHTTP();
