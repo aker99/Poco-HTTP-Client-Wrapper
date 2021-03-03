@@ -1,12 +1,10 @@
 #include <regex>
 #include <sstream>
-
 #include <Poco/Util/HelpFormatter.h>
 #include "PocoCurlApp.h"
-
 #include "HttpRequestPool.h"
 #include "CustomHttpSessionFactory.h"
-#include "Utils/Logger.h"
+
 
 using namespace Poco::Util;
 
@@ -17,7 +15,7 @@ PocoCurlApp::PocoCurlApp(): _helpRequested(false), _proxySet(false), _proxyCredS
 	std::cout<<std::endl;
 }
 
- 
+
 //Destructor
 PocoCurlApp::~PocoCurlApp() {}
 
@@ -61,10 +59,12 @@ void PocoCurlApp::handleHelp(const std::string& name, const std::string& value)
 	displayHelp();
 	stopOptionsProcessing();
 }
+
+
 void PocoCurlApp::handleURL(const std::string& name, const std::string& value)
 {
 	//regular expression for url validation
-	std::regex urlRegex("((http|https)(://))?(www\\.)?(\\w+)(\\.\\w+)+(/?\\w*)*");  
+	std::regex urlRegex("((http|https)(://))?(www\\.)?(\\w+)(\\.\\w+)(/?\\w*)*");  
 	std::regex ipv4Regex("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(/?\\w*)*");
 	std::regex ipv6Regex("((([0-9a-fA-F]){1,4})\\:){7}([0-9a-fA-F]){1,4}(/?\\w*)*");
 
@@ -90,9 +90,7 @@ void PocoCurlApp::handleURL(const std::string& name, const std::string& value)
 void PocoCurlApp::handleProxy(const std::string& name, const std::string& value)
 {
 	//regular expression for proxy
-	std::regex proxyRegex("(\\w+)(\\.\\w+)+(:\\d+)?");  
-	std::regex ipv4Regex("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])");
-	std::regex ipv6Regex("((([0-9a-fA-F]){1,4})\\:){7}([0-9a-fA-F]){1,4}");
+	std::regex proxyRegex("[\\w\\.]+(:\\d+)?");
 	
 	
 	if(std::regex_match(value, proxyRegex))
@@ -180,10 +178,10 @@ int PocoCurlApp::main(const ArgVec& args)
 
 			else{
 				
-				std::cout<<"\n Skipping following Invalid URLs : "<<std::endl;
-				for(const std::string &s : userValidURLs){
-					std::cout<<s<<std::endl;
-				}
+				// std::cout<<"\n\nValid URLS : "<<std::endl;
+				// for(const std::string &s : userValidURLs){
+				// 	std::cout<<s<<std::endl;
+				// }
 				
 
 				CustomHTTPSessionFactory::registerHTTP();
