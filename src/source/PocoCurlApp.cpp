@@ -17,7 +17,7 @@ PocoCurlApp::PocoCurlApp(): _helpRequested(false), _proxySet(false), _proxyCredS
 	std::cout<<std::endl;
 }
 
-
+ 
 //Destructor
 PocoCurlApp::~PocoCurlApp() {}
 
