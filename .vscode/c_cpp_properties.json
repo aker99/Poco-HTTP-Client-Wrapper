@@ -1,13 +1,20 @@
-{
+{ 
+    "env": {
+        "myDefaultIncludePath": ["${workspaceFolder}/src/**"]
+    },
     "configurations": [
-        {
+        {   
+            "name": "Linux",
+            "includePath": [ "${myDefaultIncludePath}"],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "${default}",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }, {
             "name": "Mac",
-            "includePath": [
-                "${workspaceFolder}/src/**",
-                "${vcpkgRoot}/x64-osx/include"
-                // "/usr/local/include/Poco/**"
-                // "/Library/Developer/CommandLineTools/usr/include/c++/v1"
-            ],
+            "includePath": [ "${myDefaultIncludePath}"],
             "defines": [],
             "macFrameworkPath": [
                 "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
@@ -19,7 +26,6 @@
             "browse": {
                 "path": [
                     "${workspaceFolder}/**",
-                    "${vcpkgRoot}/x64-osx/include",
                     "/usr/local/include/Poco/**"
                 ]
             },

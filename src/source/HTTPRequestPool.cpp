@@ -30,7 +30,7 @@ void HttpRequestPool::start() {
     {
         if (pool.available()) {
             HttpRequestPoolRunnable *runnable = new HttpRequestPoolRunnable(reqUrls.front());
-            runnableObjs.__emplace_back(runnable);
+            runnableObjs.emplace_back(runnable);
             pool.start(*runnable);
             reqUrls.pop();
         } else {
