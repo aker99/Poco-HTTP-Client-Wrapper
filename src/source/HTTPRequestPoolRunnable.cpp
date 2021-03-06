@@ -28,9 +28,9 @@ void  HttpRequestPoolRunnable::run() {
 
         fileLogger.information("Response Status of URL (" + url + "): " + obj.header.getReason() + " | Total Time Taken: " + std::to_string(duration));
 
-    } catch (Poco::Exception& excp) {
+    } catch (const Poco::Exception& excp) {
         fileLogger.error("Request to URL (" + url + ") returned with following error: " + excp.displayText());
-    } catch (std::exception ex) {
+    } catch (const std::exception& ex) {
         fileLogger.error("Request to URL (" + url + ") returned with following error: " + ex.what());
     } catch(const char *err) {
         fileLogger.error("Request to URL (" + url + ") returned with following error: " + err);

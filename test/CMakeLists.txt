@@ -5,7 +5,7 @@ set(UTILITY_TEST_DIR)
 list(TRANSFORM UTILITY_TEST_DIR PREPEND Utils/)
 
 ## Default Source
-set(D_TEST_FILE HTTPRequestWrapper)
+set(D_TEST_FILE HTTPRequestWrapper PocoCurlApp)
 
 ## Formatting path of all sources
 set(TEST_SOURCES ${D_TEST_FILE} ${UTILITY_TEST_DIR})

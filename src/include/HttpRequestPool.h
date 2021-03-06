@@ -2,6 +2,7 @@
 
 #include <queue>
 #include <vector>
+#include <memory>
 
 #include <Poco/ThreadPool.h>
 
@@ -28,7 +29,7 @@ class  HttpRequestPool {
     private:
 
         std::queue<std::string> reqUrls;
-        std::vector<HttpRequestPoolRunnable*> runnableObjs;
+        std::vector<std::unique_ptr<HttpRequestPoolRunnable>> runnableObjs;
         Poco::ThreadPool pool;
 
         HttpRequestPool();

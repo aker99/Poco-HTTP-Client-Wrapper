@@ -31,9 +31,8 @@ void HttpRequestPool::start() {
     while (!reqUrls.empty())
     {
         if (pool.available()) {
-            HttpRequestPoolRunnable *runnable = new HttpRequestPoolRunnable(reqUrls.front());
-            runnableObjs.emplace_back(runnable);
-            pool.start(*runnable);
+           runnableObjs.emplace_back(new HttpRequestPoolRunnable(reqUrls.front()));
+            pool.start(*(runnableObjs.back()));
             reqUrls.pop();
         } else {
             Utility::Thread::sleep(1000);
