@@ -1,6 +1,8 @@
 { 
     "env": {
-        "myDefaultIncludePath": ["${workspaceFolder}/src/**"]
+        "myDefaultIncludePath": ["${workspaceFolder}/src/**"],
+        "defaultConfigurationProvider": "ms-vscode.cmake-tools",
+        "defaultCompileCommands": "${workspaceFolder}/build/compile_commands.json"
     },
     "configurations": [
         {   
@@ -10,8 +12,8 @@
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "${default}",
-            "configurationProvider": "ms-vscode.cmake-tools",
-            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+            "configurationProvider": "${defaultConfigurationProvider}",
+            "compileCommands": "${defaultCompileCommands}"
         }, {
             "name": "Mac",
             "includePath": [ "${myDefaultIncludePath}"],
@@ -23,14 +25,14 @@
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "macos-clang-x64",
-            "browse": {
-                "path": [
-                    "${workspaceFolder}/**",
-                    "/usr/local/include/Poco/**"
-                ]
-            },
-            "configurationProvider": "ms-vscode.cmake-tools",
-            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+            // "browse": {
+            //     "path": [
+            //         "${workspaceFolder}/**",
+            //         "/usr/local/include/Poco/**"
+            //     ]
+            // },
+            "configurationProvider": "${defaultConfigurationProvider}",
+            "compileCommands": "${defaultCompileCommands}"
         }
     ],
     "version": 4

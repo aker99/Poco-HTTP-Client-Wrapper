@@ -1,10 +1,13 @@
 #include <regex>
 #include <sstream>
+
 #include <Poco/Util/HelpFormatter.h>
-#include "PocoCurlApp.h"
+
 #include "HttpRequestPool.h"
 #include "CustomHttpSessionFactory.h"
+#include "Utils/Logger.h"
 
+#include "PocoCurlApp.h"
 
 using namespace Poco::Util;
 
