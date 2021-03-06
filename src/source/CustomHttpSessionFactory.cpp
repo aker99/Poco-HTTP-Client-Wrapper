@@ -22,20 +22,20 @@ void CustomHTTPSessionFactory::registerHTTPS() {
     SSLManager::instance().initializeClient(0, ptrCert, context);
 }
 
-void CustomHTTPSessionFactory::setProxy(const std::string &host, const short port) {
+void CustomHTTPSessionFactory::setProxy(const std::string& host, const short port) {
     // Poco::UInt16 proxyPort = static_cast<Poco::UInt16>(port);
     HTTPSessionFactory::defaultFactory().setProxy(host, port);
 }
 
-void CustomHTTPSessionFactory::setProxyCredentials(const std::string &username, const std::string &password) {
+void CustomHTTPSessionFactory::setProxyCredentials(const std::string& username, const std::string& password) {
     HTTPSessionFactory::defaultFactory().setProxyCredentials(username, password);
 }
 
-void CustomHTTPSessionFactory::setProxy(const std::string &host, const short port, const std::string &username, const std::string &password) {
+void CustomHTTPSessionFactory::setProxy(const std::string& host, const short port, const std::string& username, const std::string& password) {
     CustomHTTPSessionFactory::setProxy(host, port);
     CustomHTTPSessionFactory::setProxyCredentials(host, password);
 }
 
-HTTPClientSession* CustomHTTPSessionFactory::createSession(const Poco::URI &uri){
+HTTPClientSession* CustomHTTPSessionFactory::createSession(const Poco::URI& uri){
     return HTTPSessionFactory::defaultFactory().createClientSession(uri);
 }

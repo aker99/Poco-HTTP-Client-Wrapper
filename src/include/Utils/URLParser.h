@@ -18,7 +18,7 @@ class URLParser {
     // if protocol not specified in url, DEFAULT_PROTOCOL is used.
     // if port not specified in url, DEFAULT_PORT is used.
     public:
-        URLParser(const std::string &url);
+        URLParser(const std::string& url);
         ~URLParser();
 
         std::string getProtocol();

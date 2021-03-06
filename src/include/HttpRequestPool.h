@@ -12,8 +12,8 @@ class  HttpRequestPool {
     
     public:
 
-        HttpRequestPool(const std::queue<std::string> &reqUrl, const int &concurrentRequestLimit = 5);
-        HttpRequestPool(const std::vector<std::string> &reqUrl, const int &concurrentRequestLimit = 5);
+        HttpRequestPool(const std::queue<std::string>& reqUrl, const int &concurrentRequestLimit = 5);
+        HttpRequestPool(const std::vector<std::string>& reqUrl, const int &concurrentRequestLimit = 5);
 
         ~HttpRequestPool();
 

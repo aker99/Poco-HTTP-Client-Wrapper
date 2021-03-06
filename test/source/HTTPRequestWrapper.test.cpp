@@ -48,3 +48,5 @@ TEST(HTTPRequestTest, NotWorkingURLS){
     }
    
 }
+
+// Add proxy test cases 

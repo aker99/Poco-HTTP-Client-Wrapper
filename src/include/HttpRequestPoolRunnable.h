@@ -7,7 +7,7 @@ class HttpRequestPoolRunnable: public Poco::Runnable{
 
     public: 
 
-        HttpRequestPoolRunnable(const std::string &url);
+        HttpRequestPoolRunnable(const std::string& url);
         // HttpRequestPoolRunnable(HttpRequestPool& ref);
         ~HttpRequestPoolRunnable();
 

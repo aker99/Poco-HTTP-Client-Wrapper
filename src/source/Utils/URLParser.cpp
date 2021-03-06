@@ -32,7 +32,7 @@ bool isValidCharInHost(const std::string& host) {
 	return true;
 }
 
-URLParser::URLParser(const std::string &URL) : url(URL) {
+URLParser::URLParser(const std::string& URL) : url(URL) {
 	parser();
 }
 

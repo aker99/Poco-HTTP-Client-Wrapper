@@ -160,13 +160,13 @@ int PocoCurlApp::main(const ArgVec& args)
 {
 	if(!_helpRequested){
 		
-		// if(userInvalidURLs.size()) 
-		// {
-		// 	std::cout<<"Invalid URL(s) found. Skipping the following URL(s):"<<std::endl;
-		// 	for(const std::string &s : userInvalidURLs){
-		// 		std::cout<<s<<std::endl;
-		// 	}
-		// }
+		if(userInvalidURLs.size()) 
+		{
+			std::cout<<"Invalid URL(s) found. Skipping the following URL(s):"<<std::endl;
+			for(const std::string &s : userInvalidURLs){
+				std::cout<<s<<std::endl;
+			}
+		}
 
 		
 		if(userValidURLs.size()){
