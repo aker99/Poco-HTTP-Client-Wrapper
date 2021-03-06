@@ -162,13 +162,13 @@ int PocoCurlApp::main(const ArgVec& args)
 {
 	if(!_helpRequested){
 		
-		// if(userInvalidURLs.size()) 
-		// {
-		// 	std::cout<<"Invalid URL(s) found. Skipping the following URL(s):"<<std::endl;
-		// 	for(const std::string &s : userInvalidURLs){
-		// 		std::cout<<s<<std::endl;
-		// 	}
-		// }
+		if(userInvalidURLs.size()) 
+		{
+			std::cout<<"Invalid URL(s) found. Skipping the following URL(s):"<<std::endl;
+			for(const std::string &s : userInvalidURLs){
+				std::cout<<s<<std::endl;
+			}
+		}
 
 		
 		if(userValidURLs.size()){
@@ -180,10 +180,10 @@ int PocoCurlApp::main(const ArgVec& args)
 
 			else{
 				
-				std::cout<<"\n Skipping following Invalid URLs : "<<std::endl;
-				for(const std::string &s : userValidURLs){
-					std::cout<<s<<std::endl;
-				}
+				// std::cout<<"\n Skipping following Invalid URLs : "<<std::endl;
+				// for(const std::string &s : userValidURLs){
+				// 	std::cout<<s<<std::endl;
+				// }
 				
 
 				CustomHTTPSessionFactory::registerHTTP();

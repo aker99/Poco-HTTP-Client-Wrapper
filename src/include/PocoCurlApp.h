@@ -41,7 +41,7 @@ protected:
 		
 	void displayHelp();
 
-	void handleInvalidCommand(const std::string &flag, const std::string &error);
+	void handleInvalidCommand(const std::string& flag, const std::string& error);
 
-	int main(const ArgVec & args);
+	int main(const ArgVec& args);
 };

@@ -8,12 +8,12 @@ HttpRequestPool::HttpRequestPool() {
     runnableObjs.reserve(reqUrls.size());
 }
 
-HttpRequestPool::HttpRequestPool(const std::queue<std::string> &reqUrl, const int &concurrentRequestLimit) : 
+HttpRequestPool::HttpRequestPool(const std::queue<std::string>& reqUrl, const int &concurrentRequestLimit) : 
     reqUrls(reqUrl), pool(1, concurrentRequestLimit) {
         HttpRequestPool();
     }
 
-HttpRequestPool::HttpRequestPool(const std::vector<std::string> &reqUrl, const int &concurrentRequestLimit) : 
+HttpRequestPool::HttpRequestPool(const std::vector<std::string>& reqUrl, const int &concurrentRequestLimit) : 
     pool(1, concurrentRequestLimit) {
         for (const auto &i : reqUrl)
         {
@@ -22,10 +22,12 @@ HttpRequestPool::HttpRequestPool(const std::vector<std::string> &reqUrl, const i
         HttpRequestPool();
     }
 
-HttpRequestPool::~HttpRequestPool() {}
+HttpRequestPool::~HttpRequestPool() {
+
+}
 
 void HttpRequestPool::start() {
-
+    // Use notifiers instead of sleep (Event / Notify)
     while (!reqUrls.empty())
     {
         if (pool.available()) {
